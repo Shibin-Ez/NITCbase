@@ -89,11 +89,11 @@ int Frontend::select_attrlist_from_table_where(char relname_source[ATTR_SIZE], c
   if (ret != SUCCESS) return ret;
 
   // Open the TEMP relation using OpenRelTable::openRel()
-  int tempRelId= OpenRelTable::openRel(TEMP);
+  int tempRelId = OpenRelTable::openRel(TEMP);
 
   // if open fails, delete TEMP relation using Schema::deleteRel() and
   // return the error code
-  if (tempRelId< 0) {
+  if (tempRelId < 0) {
     Schema::deleteRel(TEMP);
     return tempRelId;
   }

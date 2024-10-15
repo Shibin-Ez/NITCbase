@@ -9,18 +9,18 @@ echo ----Relation Catalog entries of new relations----
 echo - TODO:confirm that all the relations are printed
 echo
 SELECT * FROM RELATIONCAT INTO null WHERE RelName=Products
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Bills
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Sales
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Stores
+SELECT * FROM RELATIONCAT INTO null2 WHERE RelName=Bills
+SELECT * FROM RELATIONCAT INTO null3 WHERE RelName=Sales
+SELECT * FROM RELATIONCAT INTO null4 WHERE RelName=Stores
 echo ---------------------------------------------
 echo
 echo ----Attribute Catalog entries of new relations----
 echo - TODO:check if all the attributes are printed
 echo
-SELECT * FROM ATTRIBUTECAT INTO null WHERE RelName=Products
-SELECT * FROM ATTRIBUTECAT INTO null WHERE RelName=Sales
-SELECT * FROM ATTRIBUTECAT INTO null WHERE RelName=Bills
-SELECT * FROM ATTRIBUTECAT INTO null WHERE RelName=Stores
+SELECT * FROM ATTRIBUTECAT INTO null5 WHERE RelName=Products
+SELECT * FROM ATTRIBUTECAT INTO null6 WHERE RelName=Sales
+SELECT * FROM ATTRIBUTECAT INTO null7 WHERE RelName=Bills
+SELECT * FROM ATTRIBUTECAT INTO null8 WHERE RelName=Stores
 echo --------------------------------------------------
 echo
 echo ----Opening new relations----
@@ -34,7 +34,7 @@ INSERT INTO Stores VALUES FROM s8stores.csv
 echo --------------------------------
 echo
 echo ----Selecting from new relation----
-SELECT * FROM Stores INTO null WHERE owner=Gomez
+SELECT * FROM Stores INTO null9 WHERE owner=Gomez
 echo -----------------------------------
 echo
 echo ----Deleting Products, Sales, Bills----
@@ -47,7 +47,7 @@ echo
 echo ----Printing the relation catalog entries again----
 echo - TODO:confirm that no entries are printed
 echo
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Products
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Bills
-SELECT * FROM RELATIONCAT INTO null WHERE RelName=Sales
+SELECT * FROM RELATIONCAT INTO null10 WHERE RelName=Products
+SELECT * FROM RELATIONCAT INTO null11 WHERE RelName=Bills
+SELECT * FROM RELATIONCAT INTO null12 WHERE RelName=Sales
 echo Done

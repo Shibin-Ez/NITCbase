@@ -778,7 +778,7 @@ int BlockAccess::project(int relId, Attribute *record) {
         unsigned char slotMap[slotCount];
         buffer.getSlotMap(slotMap);
 
-        if(slot > slotCount /* slot >= the number of slots per block*/)
+        if(slot >= slotCount /* slot >= the number of slots per block*/)
         {
             // (no more slots in this block)
             // update block = right block of block

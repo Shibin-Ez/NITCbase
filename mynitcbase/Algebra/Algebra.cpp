@@ -439,7 +439,7 @@ int Algebra::project(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], int tar_
     /*** Creating and opening the target relation ***/
 
     // Create a relation for target relation by calling Schema::createRel()
-    int ret = Schema::createRel(targetRel, numAttrs, tar_Attrs, attr_types);
+    int ret = Schema::createRel(targetRel, tar_nAttrs, tar_Attrs, attr_types);
 
     // if the createRel returns an error code, then return that value.
     if (ret != SUCCESS) return ret;
