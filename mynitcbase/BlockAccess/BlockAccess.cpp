@@ -446,7 +446,7 @@ int BlockAccess::insert(int relId, Attribute *record) {
 
     // insert the record into rec_id'th slot using RecBuffer.setRecord())
     buffer.setRecord(record, rec_id.slot);
-    std::cout << "set record on " << rec_id.block << " " << rec_id.slot << " " << record[1].sVal << std::endl;
+    std::cout << "set record on " << rec_id.block << " " << rec_id.slot << " " << (int) record[1].nVal << std::endl;
 
     /* update the slot map of the block by marking entry of the slot to
        which record was inserted as occupied) */
@@ -486,17 +486,46 @@ int BlockAccess::search(int relId, Attribute *record, char attrName[ATTR_SIZE], 
     // Declare a variable called recid to store the searched record
     RecId recId;
 
-    /* search for the record id (recid) corresponding to the attribute with
-    attribute name attrName, with value attrval and satisfying the condition op
-    using linearSearch() */
-    recId = linearSearch(relId, attrName, attrVal, op);
+
+    // STAGE - 10
+
+    /* get the attribute catalog entry from the attribute cache corresponding
+    to the relation with Id=relid and with attribute_name=attrName  */
+    AttrCatEntry attrCatEntry;
+    int retVal = AttrCacheTable::getAttrCatEntry(relId, attrName, &attrCatEntry);
+
+    // if this call returns an error, return the appropriate error code
+    if (retVal < 0) return retVal;
+
+    // get rootBlock from the attribute catalog entry
+    int rootBlk = attrCatEntry.rootBlock;
+
+    if (rootBlk == -1) /* if Index does not exist for the attribute (check rootBlock == -1) */ {
+
+        /* search for the record id (recid) corresponding to the attribute with
+           attribute name attrName, with value attrval and satisfying the
+           condition op using linearSearch()
+        */
+        recId = linearSearch(relId, attrName, attrVal, op);
+    }
+
+    else /* else */ {
+        // (index exists for the attribute)
+
+        /* search for the record id (recid) correspoding to the attribute with
+        attribute name attrName and with value attrval and satisfying the
+        condition op using BPlusTree::bPlusSearch() */
+        recId = BPlusTree::bPlusSearch(relId, attrName, attrVal, op);
+        std::cout << "bPlus search completed " << recId.block << " " << recId.slot << std::endl;
+    }
+
 
     // if there's no record satisfying the given condition (recId = {-1, -1})
-    //    return E_NOTFOUND;
+    //     return E_NOTFOUND;
     if (recId.block == -1) return E_NOTFOUND;
 
-    /* Copy the record with record id (recId) to the record buffer (record)
-       For this Instantiate a RecBuffer class object using recId and
+    /* Copy the record with record id (recId) to the record buffer (record).
+       For this, instantiate a RecBuffer class object by passing the recId and
        call the appropriate method to fetch the record
     */
     RecBuffer buffer(recId.block);

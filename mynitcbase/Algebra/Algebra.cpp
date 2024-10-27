@@ -115,7 +115,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
       first record.
   */
   RelCacheTable::resetSearchIndex(ATTRCAT_RELID /* fill arguments */);
-  // AttrCacheTable::resetSearchIndex(ATTRCAT_RELID /* fill arguments */);
+  AttrCacheTable::resetSearchIndex(srcRelId, attr);
 
   // read every record that satisfies the condition by repeatedly calling
   // BlockAccess::search() until there are no more records to be read
@@ -141,71 +141,6 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
   Schema::closeRel(targetRel);
 
   return SUCCESS;
-
-
-
-  // // Stage - 4 - Select by cout statements
-
-  // /*** Selecting records from the source relation ***/
-
-  // // Before calling the search function, reset the search to start from the first hit
-  // // using RelCacheTable::resetSearchIndex()
-  // RelCacheTable::resetSearchIndex(srcRelId);
-  // RecId prevRecId;
-  // RelCacheTable::getSearchIndex(srcRelId, &prevRecId);
-
-  // RelCatEntry relCatEntry;
-  // // get relCatEntry using RelCacheTable::getRelCatEntry()
-  // RelCacheTable::getRelCatEntry(srcRelId, &relCatEntry);
-
-  // /************************
-  // The following code prints the contents of a relation directly to the output
-  // console. Direct console output is not permitted by the actual the NITCbase
-  // specification and the output can only be inserted into a new relation. We will
-  // be modifying it in the later stages to match the specification.
-  // ************************/
-
-  // printf("|");
-  // for (int i = 0; i < relCatEntry.numAttrs; ++i) {
-  //   AttrCatEntry attrCatEntry;
-  //   // get attrCatEntry at offset i using AttrCacheTable::getAttrCatEntry()
-  //   AttrCacheTable::getAttrCatEntry(srcRelId, i, &attrCatEntry);
-
-  //   printf(" %s |", attrCatEntry.attrName);
-  // }
-  // printf("\n");
-
-  // while (true) {
-  //   // printf("just working till here\n");
-  //   RecId searchRes = BlockAccess::linearSearch(srcRelId, attr, attrVal, op);
-  //   // printf("eager to get inside\n");
-  //   if (searchRes.block != -1 && searchRes.slot != -1) {
-  //     // printf("getting inside\n");
-
-  //     // get the record at searchRes using BlockBuffer.getRecord
-  //     int numOfAttrs = relCatEntry.numAttrs;
-  //     union Attribute rec[numOfAttrs];
-  //     RecBuffer buffer(searchRes.block);
-  //     buffer.getRecord(rec, searchRes.slot);
-
-  //     // print the attribute values in the same format as above
-  //     printf("|");
-  //     for (int i=0; i<numOfAttrs; i++) {
-  //       AttrCatEntry attrCatEntry;
-  //       AttrCacheTable::getAttrCatEntry(srcRelId, i, &attrCatEntry);
-  //       if (attrCatEntry.attrType == NUMBER) printf(" %d |", (int)rec[i].nVal);
-  //       else printf(" %s |", rec[i].sVal);
-  //     }
-  //     printf("\n");
-
-  //   } else {
-
-  //     // (all records over)
-  //     break;
-  //   }
-  // }
-
-  // return SUCCESS;
 }
 
 
